@@ -13,7 +13,7 @@ class LinkedListTest < Minitest::Test
 
   def test_append
     linked_list = LinkedList.new
-    node = linked_list.append('West')
+    node = linked_list.append('West', {"pounds of food" => 200})
     assert_kind_of Node, node
     assert_equal node, linked_list.head
     assert_nil linked_list.head.next_node
@@ -69,7 +69,7 @@ class LinkedListTest < Minitest::Test
   def test_prepend
     linked_list = LinkedList.new
     linked_list.append('Hardy')
-    linked_list.prepend('Brooks')
+    linked_list.prepend('Brooks', {"pounds of food" => 200})
     string = "The Brooks family, followed by the Hardy family"
     assert_equal string, linked_list.to_string
   end
@@ -87,10 +87,52 @@ class LinkedListTest < Minitest::Test
     linked_list = LinkedList.new
     linked_list.append('Hardy')
     linked_list.append('Brooks')
-    inserted_node = linked_list.insert(1, 'Small')
+    inserted_node = linked_list.insert(1, 'Small', {"pounds of food" => 200})
     string = 'The Hardy family, followed by the Small family, followed by the Brooks family'
     assert_kind_of Node, inserted_node
     assert_equal string, linked_list.to_string
     assert_equal 3, linked_list.count
+  end
+
+  def test_find
+    linked_list = LinkedList.new
+    node_1 = linked_list.append('Hardy')
+    node_2 = linked_list.append('Brooks')
+    node_3 = linked_list.append('Henderson')
+    string = 'The Brooks family'
+    assert_equal string, linked_list.find(1, 1)
+  end
+
+  def test_find_multiple
+    linked_list = LinkedList.new
+    node_1 = linked_list.append('Hardy')
+    node_2 = linked_list.append('Brooks')
+    node_3 = linked_list.append('Henderson')
+    string = 'The Brooks family, followed by the Henderson family'
+    assert_equal string, linked_list.find(1, 2)
+  end
+
+  def test_includes?
+    linked_list = LinkedList.new
+    node_1 = linked_list.append('Hardy')
+    node_2 = linked_list.append('Brooks')
+    assert linked_list.includes?('Hardy')
+    refute linked_list.includes?('Henderson')
+  end
+
+  def test_pop
+    linked_list = LinkedList.new
+    node_1 = linked_list.append('Hardy')
+    node_2 = linked_list.append('Brooks')
+    assert_equal node_2, linked_list.pop
+    assert_equal 'The Hardy family', linked_list.to_string
+    assert_equal 1, linked_list.count
+  end
+
+  def test_pop_one_node
+    linked_list = LinkedList.new
+    node_1 = linked_list.append('Hardy')
+    assert_equal node_1, linked_list.pop
+    assert_equal 0, linked_list.count
   end
 end
