@@ -35,10 +35,17 @@ class LinkedListTest < Minitest::Test
 
   def test_count_multiple_nodes
     linked_list = LinkedList.new
-    head = linked_list.append('West')
-    hardy = linked_list.append('Hardy')
-    hardy = linked_list.append('Brooks')    
+    linked_list.append('West')
+    linked_list.append('Hardy')
+    linked_list.append('Brooks')    
     assert_equal 3, linked_list.count
+  end
+
+  def test_count_with_prepend
+    linked_list = LinkedList.new
+    linked_list.append('West')
+    linked_list.prepend('Hardy')
+    assert_equal 2, linked_list.count
   end
 
   def test_to_string
@@ -60,7 +67,30 @@ class LinkedListTest < Minitest::Test
   end
 
   def test_prepend
-    
+    linked_list = LinkedList.new
+    linked_list.append('Hardy')
+    linked_list.prepend('Brooks')
+    string = "The Brooks family, followed by the Hardy family"
+    assert_equal string, linked_list.to_string
   end
 
+  def test_prepend_multiple
+    linked_list = LinkedList.new
+    linked_list.append('Hardy')
+    linked_list.prepend('Brooks')
+    linked_list.prepend('Small')
+    string = "The Small family, followed by the Brooks family, followed by the Hardy family"
+    assert_equal string, linked_list.to_string
+  end
+
+  def test_insert
+    linked_list = LinkedList.new
+    linked_list.append('Hardy')
+    linked_list.append('Brooks')
+    inserted_node = linked_list.insert(1, 'Small')
+    string = 'The Hardy family, followed by the Small family, followed by the Brooks family'
+    assert_kind_of Node, inserted_node
+    assert_equal string, linked_list.to_string
+    assert_equal 3, linked_list.count
+  end
 end

@@ -9,11 +9,33 @@ class LinkedList
 
   def append(surname)
     @count += 1
-    if head
+    if @head
       @head.append(surname)
     else
       @head = Node.new(surname)
     end
+  end
+
+  def prepend(surname)
+    @count += 1
+    if @head
+      next_node = @head
+      @head = Node.new(surname)
+      @head.next_node = next_node
+    else
+      @head = Node.new(surname)
+    end
+  end
+
+  def insert(insertion_point, surname)
+    @count += 1
+    current_node = @head
+    (insertion_point - 1).times do
+      current_node = current_node.next_node
+    end
+    new_node = Node.new(surname)
+    new_node.next_node = current_node.next_node
+    current_node.next_node = new_node
   end
 
   def to_string
