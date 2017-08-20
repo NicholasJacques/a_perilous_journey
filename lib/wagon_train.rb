@@ -16,4 +16,26 @@ class WagonTrain
   def supplies
     @list.supplies
   end
+
+  def go_hunting
+    animal_counts = {"squirrel" => 0, "deer" => 0, "bison" => 0 }
+    total_food = 0
+
+    rand(6).times do
+      animal = ANIMALS.keys.sample
+      total_food += ANIMALS[animal]
+      animal_counts[animal] += 1
+    end
+
+    print "You got #{animal_counts['squirrel']} squirrels, #{animal_counts['deer']} deer, and #{animal_counts['bison']} bison for a total of #{total_food} pounds of food"
+
+    result = { "pounds of food" => total_food}
+    @list.head.supplies.merge!(result) {|key, v1, v2| v1 + v2}
+    
+    result
+  end
+
+  private
+
+  ANIMALS = {"squirrel" =>  2, "deer" => 40, "bison" => 100}
 end
