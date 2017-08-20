@@ -9,9 +9,9 @@ class LinkedList
   def append(surname, supplies = {})
     @count += 1
     if @head
-      @head.append(surname)
+      @head.append(surname, supplies)
     else
-      @head = Node.new(surname)
+      @head = Node.new(surname, supplies)
     end
   end
 
@@ -81,6 +81,16 @@ class LinkedList
       @head = nil
       dead_family
     end
+  end
+
+  def supplies
+    node = @head
+    supplies = {}
+    while node
+      supplies.merge!(node.supplies) { |key, v1, v2| v1 + v2 }
+      node = node.next_node
+    end
+    supplies
   end
 
   private
